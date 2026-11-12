@@ -1,411 +1,363 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Termos de Serviço | Smart Applications</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://unpkg.com/lucide@latest"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PROTEC | Central de Logs</title>
+<meta name="description" content="Monitoramento em tempo real do bot PROTEC.">
+<meta name="theme-color" content="#0c2f22">
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%230c2f22'/%3E%3Cpath d='M16 6l8 3v7c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V9z' fill='%2320a72d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Sora:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --secondary:#20a72d; --secondary-d:color-mix(in srgb,var(--secondary) 80%,#000);
+  --primary:#0c2f22; --primary-2:color-mix(in srgb,var(--primary) 85%,#4fa37d);
+  --ink:#0e1a14; --muted:#56655d; --line:#dfe6e0; --bg:#f4f7f3; --card:#fff;
+  --mint:color-mix(in srgb,var(--secondary) 12%,#fff);
+  --warn:#f5c04a; --err:#ff8a7a; --crit:#ed4245;
+  --head:"Sora","Segoe UI",system-ui,sans-serif; --body:"Figtree","Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{font:400 16px/1.6 var(--body);color:var(--ink);background:var(--bg);-webkit-font-smoothing:antialiased;min-height:100vh}
+:focus-visible{outline:3px solid var(--secondary);outline-offset:3px;border-radius:8px}
+[hidden]{display:none!important}
+.wrap{max-width:1160px;margin:0 auto;padding:0 24px}
+h1,h2,h3{font-family:var(--head);letter-spacing:-.03em;line-height:1.1}
+h1{font-size:clamp(2rem,4.6vw,3.4rem);font-weight:700}
+h2{font-size:1.3rem;font-weight:700}
+.lead{font-size:1.1rem;color:var(--muted);max-width:52ch}
+.logo{display:inline-block;width:32px;height:32px;border-radius:10px;background:var(--primary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 6l8 3v7c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V9z' fill='%2320a72d'/%3E%3C/svg%3E") center/contain no-repeat}
 
-    <style>
-        /* ===== VARIÁVEIS DO SISTEMA ===== */
-        :root {
-            --primary: #5865F2;
-            --primary-glow: rgba(88, 101, 242, 0.3);
-            --bg-deep: #080a12;
-            --bg-surface: #111827;
-            --bg-card: rgba(22, 27, 34, 0.7);
-            --text-main: #f9fafb;
-            --text-muted: #9ca3af;
-            --border: rgba(255, 255, 255, 0.08);
-            --accent: #10b981; /* Verde para itens positivos */
-            --warning: #f59e0b; /* Amarelo para alertas */
-        }
+header{position:sticky;top:0;z-index:30;background:rgba(244,247,243,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:12px}
+.brand{display:flex;align-items:center;gap:10px;font:700 1.25rem var(--head);letter-spacing:-.03em;text-decoration:none;color:inherit}
+.nav-r{display:flex;align-items:center;gap:10px}
 
-        /* ===== RESET & BASE ===== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-deep);
-            color: var(--text-main);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:52px;padding:0 28px;border-radius:14px;font:600 1rem var(--body);border:1.5px solid transparent;cursor:pointer;transition:transform .15s,background .15s,border-color .15s;text-decoration:none}
+.btn:active{transform:scale(.97)}
+.btn svg{width:18px;height:18px}
+.btn-main{background:var(--secondary);color:#fff;box-shadow:0 8px 20px -8px rgba(32,167,45,.6)}
+.btn-main:hover{background:var(--secondary-d)}
+.btn-line{border-color:#bccabf;color:var(--ink);background:transparent}
+.btn-line:hover{border-color:var(--primary);background:#fff}
+.btn-sm{min-height:42px;padding:0 18px;font-size:.93rem;border-radius:11px}
+.who{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:0 14px 0 6px;border-radius:11px;border:1.5px solid #bccabf;background:transparent;font:600 .93rem var(--body);cursor:pointer;color:var(--ink)}
+.who img{width:30px;height:30px;border-radius:50%}
 
-        /* Barra de Progresso */
-        #progress-bar {
-            position: fixed; top: 0; left: 0; width: 0%; height: 4px;
-            background: linear-gradient(to right, var(--primary), #a5b4fc);
-            z-index: 1000; transition: width 0.1s;
-        }
+/* gate (login / negado / setup) */
+.gate{display:grid;place-items:center;min-height:calc(100vh - 68px);padding:48px 0;background:radial-gradient(900px 420px at 85% 0,#dff1e1,transparent 70%)}
+.gate .box{max-width:560px}
+.gate h1{margin:22px 0 18px}
+.gate .btn{margin-top:30px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 10px;border-radius:99px;background:var(--mint);color:var(--primary);font-weight:600;font-size:.9rem}
+.pill i{width:8px;height:8px;border-radius:50%;background:var(--secondary)}
+.pill.bad{background:#fdeaea;color:#8a1f1f}.pill.bad i{background:var(--crit)}
+code{font:500 .88em ui-monospace,Menlo,monospace;background:var(--mint);padding:2px 8px;border-radius:8px;color:var(--primary)}
 
-        /* ===== HEADER DINÂMICO ===== */
-        header {
-            height: 400px;
-            background: radial-gradient(circle at top right, rgba(88, 101, 242, 0.15), transparent),
-                        radial-gradient(circle at bottom left, rgba(31, 41, 55, 1), var(--bg-deep));
-            display: flex; direction: column; justify-content: center; align-items: center;
-            text-align: center; border-bottom: 1px solid var(--border);
-            padding: 20px;
-        }
+/* dashboard */
+.dash{padding:36px 0 80px;display:grid;gap:24px}
+.top{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.top p{color:var(--muted);margin-top:8px}
+.grid{display:grid;grid-template-columns:1.25fr 1fr;gap:20px}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:28px}
+.tile h2{margin-bottom:4px}
+.tile .sub{color:var(--muted);font-size:.93rem;margin-bottom:18px}
 
-        .badge {
-            background: var(--primary-glow);
-            color: var(--primary);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-bottom: 16px;
-            border: 1px solid var(--primary);
-        }
+/* status do bot (painel escuro, igual ao console do site) */
+.console{background:var(--primary);color:#e7f2ea;border-radius:24px;border:1px solid #1d5a42;box-shadow:0 40px 80px -40px rgba(12,47,34,.55);overflow:hidden}
+.c-top{display:flex;align-items:center;gap:10px;padding:16px 22px;background:var(--primary-2);border-bottom:1px solid #1d5a42}
+.c-top strong{font:600 .98rem var(--head)}
+.live{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:.84rem;font-weight:600;color:#8be496}
+.live i{width:8px;height:8px;border-radius:50%;background:#4fe063;animation:pulse 1.6s infinite}
+.live.off{color:#ffb4aa}.live.off i{background:var(--crit);animation:none}
+@keyframes pulse{50%{opacity:.25}}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#1d4d3a}
+.kv div{background:var(--primary);padding:18px 22px}
+.kv small{display:block;color:#8fb09e;font-size:.82rem}
+.kv b{font:600 1.25rem var(--head);letter-spacing:-.02em}
 
-        header h1 { font-size: clamp(32px, 5vw, 56px); font-weight: 800; letter-spacing: -2px; margin-bottom: 15px; }
-        header p { color: var(--text-muted); max-width: 600px; font-size: 18px; }
+/* contadores */
+.counts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.cnt{border-radius:18px;padding:16px 18px;background:var(--bg);border:1px solid var(--line)}
+.cnt b{display:block;font:700 1.9rem var(--head);letter-spacing:-.03em}
+.cnt span{color:var(--muted);font-size:.9rem}
+.cnt.w b{color:#a67a00}.cnt.e b{color:#c2412f}.cnt.c b{color:var(--crit)}
 
-        /* ===== BUSCA ===== */
-        .search-container {
-            max-width: 500px; width: 90%; margin: -30px auto 0; position: relative; z-index: 10;
-        }
-        .search-container input {
-            width: 100%; padding: 18px 25px 18px 50px;
-            background: var(--bg-surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            color: white; font-size: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-            outline: none; transition: 0.3s;
-        }
-        .search-container input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px var(--primary-glow); }
-        .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+/* gráfico 24h */
+.chart{display:flex;align-items:flex-end;gap:4px;height:120px;margin-top:6px}
+.chart i{flex:1;min-height:3px;border-radius:5px 5px 2px 2px;background:var(--mint);position:relative}
+.chart i.l0{background:var(--secondary)}.chart i.l1{background:var(--warn)}.chart i.l2{background:var(--err)}.chart i.l3{background:var(--crit)}
+.axis{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;margin-top:8px}
 
-        /* ===== LAYOUT PRINCIPAL ===== */
-        .main-grid {
-            display: grid; grid-template-columns: 300px 1fr;
-            max-width: 1300px; margin: 60px auto; gap: 40px; padding: 0 20px;
-        }
+/* barra de ferramentas */
+.tools{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips button{padding:8px 16px;border-radius:99px;border:1px solid var(--line);background:#fff;font:600 .9rem var(--body);cursor:pointer;transition:border-color .15s}
+.chips button:hover{border-color:var(--secondary)}
+.chips button[aria-pressed=true]{background:var(--secondary);border-color:var(--secondary);color:#fff}
+.search{flex:1;min-width:200px;font:400 .98rem var(--body);padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+.search:focus{outline:none;border-color:var(--secondary)}
 
-        /* ===== SIDEBAR NAV ===== */
-        .sidebar { position: sticky; top: 40px; height: fit-content; }
-        .nav-card {
-            background: var(--bg-surface); padding: 25px;
-            border-radius: 16px; border: 1px solid var(--border);
-        }
-        .nav-card h3 { font-size: 14px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 20px; letter-spacing: 1px; }
-        .nav-link {
-            display: flex; align-items: center; gap: 12px;
-            color: var(--text-muted); text-decoration: none;
-            padding: 12px; border-radius: 8px; transition: 0.2s; margin-bottom: 4px;
-        }
-        .nav-link:hover { background: rgba(255,255,255,0.03); color: white; }
-        .nav-link.active { background: var(--primary); color: white; font-weight: 600; box-shadow: 0 4px 12px var(--primary-glow); }
+/* feed de logs */
+.feed{list-style:none;padding:6px 22px 14px;min-height:240px;max-height:640px;overflow:auto}
+.feed li{border-bottom:1px solid #1d4d3a;padding:2px 0}
+.feed li:last-child{border:0}
+.empty{color:#8fb09e;padding:48px 0;text-align:center}
+details>summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:150px 82px 1fr;gap:12px;padding:12px 0;font-size:.93rem;align-items:start}
+details>summary::-webkit-details-marker{display:none}
+details>summary:hover .m{color:#fff}
+.feed time{color:#8fb09e;font-size:.82rem;padding-top:2px;white-space:nowrap}
+.lv{font:700 .72rem var(--body);letter-spacing:.04em;padding:3px 0;border-radius:8px;text-align:center;background:#12402f;color:#8be496}
+.lv.WARN{background:#3b2f0d;color:var(--warn)}
+.lv.ERROR{background:#46201b;color:var(--err)}
+.lv.CRITICAL{background:var(--crit);color:#fff}
+.m{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word;color:#d5e6db}
+details[open] .m{display:block;-webkit-line-clamp:unset}
+.st{margin:0 0 14px 244px;padding:14px;border-radius:14px;background:#0a251a;border:1px solid #2f7a58;color:#cfe3d6;font:400 .82rem/1.55 ui-monospace,Menlo,monospace;white-space:pre-wrap;word-break:break-word;max-height:320px;overflow:auto}
+.foot{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 22px;border-top:1px solid #1d4d3a;color:#8fb09e;font-size:.86rem;flex-wrap:wrap}
+.foot .btn-line{border-color:#3a6d56;color:#e7f2ea}
+.foot .btn-line:hover{background:#12402f;border-color:#6fe67f}
 
-        /* ===== CONTEÚDO ===== */
-        .content-area { min-width: 0; }
-        .doc-section {
-            background: var(--bg-card); padding: 50px;
-            border-radius: 24px; margin-bottom: 40px;
-            border: 1px solid var(--border);
-            transition: 0.3s; opacity: 0; transform: translateY(20px);
-        }
-        .doc-section.show { opacity: 1; transform: translateY(0); }
-        .doc-section:hover { border-color: rgba(88, 101, 242, 0.4); }
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--primary);color:#fff;padding:12px 20px;border-radius:12px;z-index:80;font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.on{opacity:1}
 
-        .section-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
-        .section-icon { padding: 10px; background: var(--primary-glow); border-radius: 12px; color: var(--primary); }
-        .doc-section h2 { font-size: 28px; font-weight: 700; }
-
-        /* TL;DR Box */
-        .tldr {
-            background: rgba(16, 185, 129, 0.05);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            padding: 20px; border-radius: 12px; margin-bottom: 25px;
-            font-size: 14px; display: flex; gap: 15px;
-        }
-        .tldr strong { color: var(--accent); }
-
-        .doc-section p { color: var(--text-muted); margin-bottom: 20px; font-size: 17px; }
-        
-        /* Lista Estilizada */
-        .feature-list { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
-        .feature-list li {
-            display: flex; align-items: flex-start; gap: 10px;
-            color: var(--text-muted); font-size: 15px;
-        }
-        .feature-list li::before { content: "✓"; color: var(--accent); font-weight: bold; }
-
-        /* ===== BOTÃO VOLTAR AO TOPO ===== */
-        #back-to-top {
-            position: fixed; bottom: 30px; right: 30px;
-            background: var(--primary); color: white; width: 50px; height: 50px;
-            border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            cursor: pointer; opacity: 0; visibility: hidden; transition: 0.3s; z-index: 100;
-            border: none; box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-        }
-        #back-to-top.show { opacity: 1; visibility: visible; }
-
-        /* ===== FOOTER ===== */
-        footer {
-            background: var(--bg-surface); padding: 80px 20px;
-            text-align: center; border-top: 1px solid var(--border);
-        }
-        .footer-grid {
-            max-width: 1200px; margin: 0 auto;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 40px; text-align: left; margin-bottom: 50px;
-        }
-        .footer-col h4 { margin-bottom: 20px; color: white; }
-        .footer-col a { display: block; color: var(--text-muted); text-decoration: none; margin-bottom: 10px; font-size: 14px; }
-        .footer-col a:hover { color: var(--primary); }
-
-        /* ===== RESPONSIVIDADE ===== */
-        @media (max-width: 1024px) {
-            .main-grid { grid-template-columns: 1fr; }
-            .sidebar { display: none; }
-            .doc-section { padding: 30px; }
-        }
-
-        /* Impressão */
-        @media print {
-            .sidebar, .search-container, #back-to-top, header, #progress-bar { display: none; }
-            body { background: white; color: black; }
-            .doc-section { opacity: 1 !important; transform: none !important; border: 1px solid #ccc; break-inside: avoid; }
-            .doc-section p, .doc-section li { color: black; }
-        }
-    </style>
+@media (max-width:920px){
+  .grid{grid-template-columns:1fr}
+  .counts{grid-template-columns:repeat(2,1fr)}
+  .kv{grid-template-columns:repeat(2,1fr)}
+  details>summary{grid-template-columns:70px 1fr;grid-template-areas:"t l" "m m"}
+  details>summary time{grid-area:t}.lv{grid-area:l;justify-self:start;padding:3px 10px}.m{grid-area:m}
+  .st{margin-left:0}
+  .who span{display:none}.who{padding:0 6px}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
 </head>
 <body>
+<header><div class="wrap nav">
+  <a class="brand" href="#"><span class="logo" role="img" aria-label="Logo"></span>PROTEC</a>
+  <div class="nav-r" id="authBox"></div>
+</div></header>
 
-    <div id="progress-bar"></div>
+<main>
+  <!-- Configuração pendente -->
+  <section class="gate" id="vSetup" hidden><div class="wrap"><div class="box">
+    <span class="pill bad"><i></i>Configuração pendente</span>
+    <h1>Falta conectar o Firebase.</h1>
+    <p class="lead">Abra o arquivo <code>firebase.config.js</code> e cole as chaves do app da Web do seu projeto. Depois recarregue esta página.</p>
+  </div></div></section>
 
-    <header>
-        <div class="badge">Atualizado em 19 de Abril, 2026</div>
-        <h1>Termos de Serviço</h1>
-        <p>Transparência, segurança e compromisso. Entenda como operamos a Smart Applications e como protegemos sua comunidade.</p>
-    </header>
+  <!-- Login -->
+  <section class="gate" id="vLogin" hidden><div class="wrap"><div class="box">
+    <span class="pill"><i></i>Acesso restrito à equipe</span>
+    <h1>Central de logs do sistema.</h1>
+    <p class="lead">Acompanhe em tempo real eventos, erros e a saúde do bot. Entre com a conta Google autorizada.</p>
+    <button class="btn btn-main" data-a="login"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4M10 17l5-5-5-5M15 12H3"/></svg>Entrar com Google</button>
+  </div></div></section>
 
-    <div class="search-container">
-        <i data-lucide="search" class="search-icon"></i>
-        <input type="text" id="termSearch" placeholder="Pesquisar por palavras-chave (ex: reembolso, dados, suporte)...">
+  <!-- Acesso negado -->
+  <section class="gate" id="vDenied" hidden><div class="wrap"><div class="box">
+    <span class="pill bad"><i></i>Acesso negado</span>
+    <h1>Esta conta não tem permissão.</h1>
+    <p class="lead" id="deniedMsg">Entre com a conta de administrador para ver os logs.</p>
+    <button class="btn btn-line" data-a="logout">Trocar de conta</button>
+  </div></div></section>
+
+  <!-- Dashboard -->
+  <section class="dash" id="vApp" hidden><div class="wrap" style="display:grid;gap:24px">
+    <div class="top">
+      <div><h1>Central de logs</h1><p id="botTag">Aguardando o bot...</p></div>
+      <div class="tools">
+        <button class="btn btn-line btn-sm" id="pause" aria-pressed="false">Pausar</button>
+        <button class="btn btn-line btn-sm" id="expCsv">Exportar CSV</button>
+        <button class="btn btn-line btn-sm" id="expJson">Exportar JSON</button>
+      </div>
     </div>
 
-    <div class="main-grid">
-        <aside class="sidebar">
-            <div class="nav-card">
-                <h3>Sumário Executivo</h3>
-                <nav id="sidebar-nav">
-                    <a href="#aceitacao" class="nav-link"><i data-lucide="check-circle"></i> Aceitação</a>
-                    <a href="#servicos" class="nav-link"><i data-lucide="bot"></i> Serviços</a>
-                    <a href="#financeiro" class="nav-link"><i data-lucide="credit-card"></i> Financeiro</a>
-                    <a href="#privacidade" class="nav-link"><i data-lucide="shield-lock"></i> Privacidade</a>
-                    <a href="#conduta" class="nav-link"><i data-lucide="users"></i> Conduta</a>
-                    <a href="#sla" class="nav-link"><i data-lucide="zap"></i> Disponibilidade</a>
-                    <a href="#contato" class="nav-link"><i data-lucide="mail"></i> Suporte</a>
-                </nav>
-            </div>
-        </aside>
-
-        <main class="content-area">
-            
-            <section id="aceitacao" class="doc-section">
-                <div class="section-header">
-                    <div class="section-icon"><i data-lucide="file-text"></i></div>
-                    <h2>1. Aceitação do Contrato</h2>
-                </div>
-                <div class="tldr">
-                    <i data-lucide="info"></i>
-                    <span><strong>Resumo:</strong> Ao usar nosso bot, você concorda com as regras abaixo. Se não concordar, por favor, interrompa o uso imediatamente.</span>
-                </div>
-                <p>Estes termos regem o uso da plataforma Smart Applications. Ao clicar em "Autorizar" ou contratar qualquer plano Premium, você estabelece um vínculo jurídico imediato conosco.</p>
-            </article>
-
-            <section id="servicos" class="doc-section">
-                <div class="section-header">
-                    <div class="section-icon"><i data-lucide="cpu"></i></div>
-                    <h2>2. Escopo dos Serviços</h2>
-                </div>
-                <p>A Smart Applications fornece ferramentas de automação, moderação e entretenimento via API do Discord. Nossos serviços são classificados como SaaS (Software as a Service).</p>
-                <ul class="feature-list">
-                    <li>Hospedagem 24/7 em clusters dedicados.</li>
-                    <li>Proteção contra ataques de flood/spam.</li>
-                    <li>Logs em tempo real para administração.</li>
-                    <li>Backup diário de configurações.</li>
-                </ul>
-            </section>
-
-            <section id="financeiro" class="doc-section">
-                <div class="section-header">
-                    <div class="section-icon"><i data-lucide="wallet"></i></div>
-                    <h2>3. Políticas Financeiras</h2>
-                </div>
-                <div class="tldr">
-                    <i data-lucide="alert-triangle" style="color: var(--warning)"></i>
-                    <span><strong>Atenção:</strong> Reembolsos são garantidos apenas em casos de falha técnica comprovada no prazo de 7 dias (Art. 49 CDC).</span>
-                </div>
-                <p>A manutenção dos bots requer infraestrutura de alto custo. Por isso, operamos com os seguintes critérios:</p>
-                <ul>
-                    <li><strong>Ativação:</strong> Ocorre em até 5 minutos após a confirmação bancária.</li>
-                    <li><strong>Inadimplência:</strong> O serviço é suspenso após 48h de atraso no pagamento.</li>
-                    <li><strong>Cancelamento:</strong> Pode ser feito via dashboard a qualquer momento.</li>
-                </ul>
-            </section>
-
-            <section id="privacidade" class="doc-section">
-                <div class="section-header">
-                    <div class="section-icon"><i data-lucide="eye-off"></i></div>
-                    <h2>4. Dados e LGPD</h2>
-                </div>
-                <p>Respeitamos sua privacidade conforme a Lei Geral de Proteção de Dados (LGPD). Coletamos apenas o estritamente necessário para o bot funcionar.</p>
-                <ul class="feature-list">
-                    <li>Não vendemos dados para terceiros.</li>
-                    <li>Mensagens de usuários não são armazenadas em texto puro.</li>
-                    <li>Você pode solicitar a exclusão total de seus dados via comando /data-delete.</li>
-                </ul>
-            </section>
-
-            <section id="conduta" class="doc-section">
-                <div class="section-header">
-                    <div class="section-icon"><i data-lucide="gavel"></i></div>
-                    <h2>5. Regras de Conduta</h2>
-                </div>
-                <p>O uso do bot para finalidades ilícitas resultará em banimento imediato sem aviso prévio. É proibido:</p>
-                <ul>
-                    <li>Divulgação de conteúdo adulto ilegal ou violento.</li>
-                    <li>Engenharia reversa em nossos scripts e APIs.</li>
-                    <li>Uso de bugs para ganhar vantagens em sistemas de economia real.</li>
-                </ul>
-            </section>
-
-            <section id="sla" class="doc-section">
-                <div class="section-header">
-                    <div class="section-icon"><i data-lucide="activity"></i></div>
-                    <h2>6. SLA e Disponibilidade</h2>
-                </div>
-                <p>Nosso compromisso de Uptime é de <strong>99.8%</strong> ao mês. Excluem-se desta garantia:</p>
-                <ul>
-                    <li>Quedas globais da Cloudflare ou Discord.</li>
-                    <li>Manutenções preventivas (anunciadas com 24h de antecedência).</li>
-                </ul>
-            </section>
-
-            <section id="contato" class="doc-section">
-                <div class="section-header">
-                    <div class="section-icon"><i data-lucide="headset"></i></div>
-                    <h2>7. Suporte e Ouvidoria</h2>
-                </div>
-                <p>Nosso time está disponível para resolver conflitos de forma amigável antes de qualquer escalonamento jurídico.</p>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px;">
-                    <div style="background: var(--bg-surface); padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
-                        <h4 style="margin-bottom: 10px;">Discord Oficial</h4>
-                        <a href="#" style="color: var(--primary); text-decoration: none;">https://discord.gg/BaG9zbNyhu</a>
-                    </div>
-                    <div style="background: var(--bg-surface); padding: 20px; border-radius: 12px; border: 1px solid var(--border);">
-                        <h4 style="margin-bottom: 10px;">E-mail</h4>
-                        <span>Embreve...</span>
-                    </div>
-                </div>
-            </section>
-
-        </main>
+    <div class="grid">
+      <div class="console" aria-label="Status do bot">
+        <div class="c-top"><span class="logo" style="width:22px;height:22px;border-radius:7px" aria-hidden="true"></span><strong>Status do bot</strong><span class="live off" id="live"><i></i><span>offline</span></span></div>
+        <div class="kv" id="kv"></div>
+      </div>
+      <div class="tile">
+        <h2>Últimas 24 horas</h2>
+        <p class="sub">Eventos por hora, coloridos pela maior gravidade.</p>
+        <div class="chart" id="chart" role="img" aria-label="Gráfico de eventos por hora"></div>
+        <div class="axis"><span>-24h</span><span>-12h</span><span>agora</span></div>
+      </div>
     </div>
 
-    <button id="back-to-top" title="Voltar ao Topo">
-        <i data-lucide="arrow-up"></i>
-    </button>
+    <div class="counts" id="counts"></div>
 
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-col">
-                <h4>Smart Applications</h4>
-                <p style="font-size: 13px; color: var(--text-muted)">Líder em automação para comunidades digitais desde 2022. CNPJ: 00.000.000/0001-00</p>
-            </div>
-            <div class="footer-col">
-                <h4>Links Úteis</h4>
-                <a href="#">Status do Bot</a>
-                <a href="#">Wiki / Documentação</a>
-                <a href="#">Painel de Controle</a>
-            </div>
-            <div class="footer-col">
-                <h4>Segurança</h4>
-                <a href="#">Política de Cookies</a>
-                <a href="#">Relatório de Transparência</a>
-            </div>
+    <div class="console">
+      <div class="c-top" style="flex-wrap:wrap">
+        <strong>Eventos</strong>
+        <span class="live" id="liveFeed"><i></i><span>ao vivo</span></span>
+      </div>
+      <div class="tools" style="padding:16px 22px;background:#0a251a;border-bottom:1px solid #1d4d3a">
+        <div class="chips" id="chips">
+          <button aria-pressed="true" data-f="ALL">Todos</button>
+          <button aria-pressed="false" data-f="INFO">Info</button>
+          <button aria-pressed="false" data-f="WARN">Avisos</button>
+          <button aria-pressed="false" data-f="ERROR">Erros</button>
+          <button aria-pressed="false" data-f="CRITICAL">Críticos</button>
         </div>
-        <p style="color: var(--text-muted); font-size: 14px;">© 2026 Smart Applications. Feito com paixão pela comunidade.</p>
-    </footer>
+        <input class="search" id="q" type="search" placeholder="Buscar no texto dos logs" aria-label="Buscar nos logs">
+      </div>
+      <ul class="feed" id="feed" aria-live="off"></ul>
+      <div class="foot"><span id="footInfo"></span><button class="btn btn-line btn-sm" id="more" hidden>Carregar mais 200</button></div>
+    </div>
+  </div></section>
+</main>
 
-    <script>
-        // Inicializa Ícones
-        lucide.createIcons();
+<div id="toast" role="status"></div>
 
-        // 1. BARRA DE PROGRESSO
-        window.onscroll = function() {
-            let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            let scrolled = (winScroll / height) * 100;
-            document.getElementById("progress-bar").style.width = scrolled + "%";
+<script type="module">
+import { FIREBASE_CONFIG, ADMIN_EMAIL } from "./firebase.config.js";
 
-            // Mostrar/Esconder botão Voltar ao Topo
-            const btt = document.getElementById("back-to-top");
-            if (winScroll > 500) { btt.classList.add("show"); } 
-            else { btt.classList.remove("show"); }
-        };
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const V = "10.12.2", CDN = `https://www.gstatic.com/firebasejs/${V}/`;
+const RANK = { INFO: 0, WARN: 1, ERROR: 2, CRITICAL: 3 };
+const PAGE = 200;
 
-        // 2. BUSCA DE TERMOS
-        const searchInput = document.getElementById('termSearch');
-        const sections = document.querySelectorAll('.doc-section');
+let fb, user, logs = [], latest = [], status = null;
+let filter = "ALL", query = "", paused = false, limitN = PAGE, unsubLogs, unsubStatus, tt;
 
-        searchInput.addEventListener('input', (e) => {
-            const term = e.target.value.toLowerCase();
-            sections.forEach(section => {
-                const text = section.innerText.toLowerCase();
-                if (text.includes(term)) {
-                    section.style.display = "block";
-                } else {
-                    section.style.display = "none";
-                }
-            });
-        });
+const toast = m => { const t = $("#toast"); t.textContent = m; t.classList.add("on"); clearTimeout(tt); tt = setTimeout(() => t.classList.remove("on"), 2800); };
+const isAdmin = u => !!u && u.emailVerified && (u.email || "").toLowerCase() === ADMIN_EMAIL.toLowerCase();
+const fmtTime = ts => new Date(ts).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+const fmtUp = ms => { const d = Math.floor(ms / 864e5), h = Math.floor(ms / 36e5) % 24, m = Math.floor(ms / 6e4) % 60; return `${d}d ${h}h ${m}m`; };
 
-        // 3. ANIMAÇÃO DE ENTRADA (Intersection Observer)
-        const observerOptions = { threshold: 0.1 };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('show');
-                }
-            });
-        }, observerOptions);
+function view(name) {
+  ["Setup", "Login", "Denied", "App"].forEach(n => $("#v" + n).hidden = n !== name);
+}
 
-        sections.forEach(section => observer.observe(section));
+/* ---------- Firebase ---------- */
+async function boot() {
+  if (String(FIREBASE_CONFIG.apiKey).startsWith("COLE")) { view("Setup"); renderAuth(); return; }
+  try {
+    const [A, Au, F] = await Promise.all([import(CDN + "firebase-app.js"), import(CDN + "firebase-auth.js"), import(CDN + "firebase-firestore.js")]);
+    const app = A.initializeApp(FIREBASE_CONFIG);
+    fb = { Au, F, auth: Au.getAuth(app), db: F.getFirestore(app) };
+    Au.onAuthStateChanged(fb.auth, u => {
+      user = u; renderAuth(); stop();
+      if (!u) return view("Login");
+      if (!isAdmin(u)) { $("#deniedMsg").textContent = `A conta ${u.email} não está autorizada a ver estes logs.`; return view("Denied"); }
+      view("App"); start();
+    });
+  } catch (e) { console.error(e); toast("Não foi possível carregar o Firebase."); view("Login"); }
+}
 
-        // 4. SCROLLSPY (Marcar menu lateral)
-        const navLinks = document.querySelectorAll('.nav-link');
-        window.addEventListener('scroll', () => {
-            let current = "";
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (pageYOffset >= sectionTop - 100) {
-                    current = section.getAttribute('id');
-                }
-            });
+function renderAuth() {
+  const box = $("#authBox");
+  if (!user) { box.innerHTML = ""; return; }
+  const img = /^https?:/i.test(user.photoURL || "") ? `<img src="${esc(user.photoURL)}" alt="" referrerpolicy="no-referrer">` : "";
+  box.innerHTML = `<button class="who" data-a="logout" title="Sair">${img}<span>Sair</span></button>`;
+}
 
-            navLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('href').includes(current)) {
-                    link.classList.add('active');
-                }
-            });
-        });
+async function login() {
+  if (!fb) return toast("Configure o firebase.config.js primeiro.");
+  const p = new fb.Au.GoogleAuthProvider();
+  try { await fb.Au.signInWithPopup(fb.auth, p); }
+  catch (e) { if (e.code === "auth/popup-blocked") fb.Au.signInWithRedirect(fb.auth, p); else if (e.code !== "auth/popup-closed-by-user") toast("Erro no login: " + (e.code || e.message)); }
+}
 
-        // 5. VOLTAR AO TOPO
-        document.getElementById('back-to-top').addEventListener('click', () => {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    </script>
+document.addEventListener("click", e => {
+  const a = e.target.closest("[data-a]")?.dataset.a;
+  if (a === "login") login();
+  if (a === "logout") fb.Au.signOut(fb.auth).then(() => toast("Você saiu."));
+});
+
+/* ---------- Dados em tempo real ---------- */
+function stop() { unsubLogs?.(); unsubStatus?.(); unsubLogs = unsubStatus = null; logs = latest = []; status = null; }
+
+function start() {
+  const { F, db } = fb;
+  subscribeLogs();
+  unsubStatus = F.onSnapshot(F.doc(db, "status", "bot"), s => { status = s.exists() ? s.data() : null; renderStatus(); }, err => toast("Status: " + err.code));
+}
+
+function subscribeLogs() {
+  const { F, db } = fb;
+  unsubLogs?.();
+  unsubLogs = F.onSnapshot(F.query(F.collection(db, "logs"), F.orderBy("time", "desc"), F.limit(limitN)), snap => {
+    latest = snap.docs.map(d => { const x = d.data(); return { id: d.id, ts: x.time?.toMillis?.() ?? Date.now(), level: x.level || "INFO", message: x.message || "", stack: x.stack || "" }; });
+    $("#more").hidden = snap.size < limitN;
+    if (!paused) { logs = latest; renderLogs(); }
+  }, err => toast("Sem permissão para ler os logs (" + err.code + "). Confira o firestore.rules."));
+}
+
+/* ---------- Render ---------- */
+function renderStatus() {
+  const s = status, hb = s?.heartbeat?.toMillis?.() ?? 0;
+  const on = !!s && s.online !== false && Date.now() - hb < 90000;
+  $("#live").className = "live" + (on ? "" : " off");
+  $("#live span").textContent = on ? "operando" : "offline";
+  $("#botTag").textContent = s ? `${s.botTag || "Bot"} • último sinal ${hb ? fmtTime(hb) : "—"}` : "Aguardando o bot enviar o primeiro sinal...";
+  const kv = [["RAM", s ? s.ramMb + " MB" : "—"], ["Ping", s ? s.ping + " ms" : "—"], ["Uptime", s ? fmtUp(s.uptimeMs) : "—"],
+    ["Servidores", s?.guilds ?? "—"], ["Usuários", s?.users ?? "—"], ["Node / djs", s ? `${s.node} / ${s.djs}` : "—"]];
+  $("#kv").innerHTML = kv.map(([k, v]) => `<div><small>${k}</small><b>${esc(v)}</b></div>`).join("");
+}
+
+function renderCounts() {
+  const c = { INFO: 0, WARN: 0, ERROR: 0, CRITICAL: 0 };
+  logs.forEach(l => c[l.level] = (c[l.level] || 0) + 1);
+  $("#counts").innerHTML = [["", "Info", c.INFO], ["w", "Avisos", c.WARN], ["e", "Erros", c.ERROR], ["c", "Críticos", c.CRITICAL]]
+    .map(([k, n, v]) => `<div class="cnt ${k}"><b>${v}</b><span>${n}</span></div>`).join("");
+}
+
+function renderChart() {
+  const now = Date.now(), H = 36e5, b = Array.from({ length: 24 }, () => ({ n: 0, r: 0 }));
+  logs.forEach(l => { const i = 23 - Math.floor((now - l.ts) / H); if (i >= 0 && i < 24) { b[i].n++; b[i].r = Math.max(b[i].r, RANK[l.level] ?? 0); } });
+  const max = Math.max(1, ...b.map(x => x.n));
+  $("#chart").innerHTML = b.map((x, i) => `<i class="l${x.r}" style="height:${x.n ? Math.max(6, x.n / max * 100) : 3}%" title="${x.n} evento(s) • há ${23 - i}h"></i>`).join("");
+}
+
+function filtered() {
+  const q = query.trim().toLowerCase();
+  return logs.filter(l => (filter === "ALL" || l.level === filter) && (!q || (l.message + " " + l.stack).toLowerCase().includes(q)));
+}
+
+function renderLogs() {
+  renderCounts(); renderChart();
+  const list = filtered();
+  $("#feed").innerHTML = list.length ? list.map(l => `<li><details>
+    <summary><time>${fmtTime(l.ts)}</time><span class="lv ${esc(l.level)}">${esc(l.level)}</span><span class="m">${esc(l.message)}</span></summary>
+    ${l.stack ? `<pre class="st">${esc(l.stack)}</pre>` : ""}</details></li>`).join("") : `<li class="empty">Nenhum evento encontrado.</li>`;
+  $("#footInfo").textContent = `${list.length} de ${logs.length} eventos carregados` + (paused ? " • pausado" : "");
+}
+
+/* ---------- Interações ---------- */
+$("#chips").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  filter = b.dataset.f;
+  document.querySelectorAll("#chips button").forEach(x => x.setAttribute("aria-pressed", x === b));
+  renderLogs();
+});
+$("#q").addEventListener("input", e => { query = e.target.value; renderLogs(); });
+$("#pause").addEventListener("click", e => {
+  paused = !paused; e.target.setAttribute("aria-pressed", paused); e.target.textContent = paused ? "Retomar" : "Pausar";
+  $("#liveFeed").className = "live" + (paused ? " off" : ""); $("#liveFeed span").textContent = paused ? "pausado" : "ao vivo";
+  if (!paused) { logs = latest; } renderLogs();
+});
+$("#more").addEventListener("click", () => { limitN += PAGE; subscribeLogs(); });
+
+function download(name, mime, data) {
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([data], { type: mime })); a.download = name; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+$("#expJson").addEventListener("click", () => download(`protec-logs-${Date.now()}.json`, "application/json", JSON.stringify(filtered().map(l => ({ ...l, time: new Date(l.ts).toISOString() })), null, 2)));
+$("#expCsv").addEventListener("click", () => {
+  const q = v => `"${String(v).replace(/"/g, '""')}"`;
+  download(`protec-logs-${Date.now()}.csv`, "text/csv;charset=utf-8", "\ufefftempo,nivel,mensagem\n" + filtered().map(l => [new Date(l.ts).toISOString(), l.level, l.message].map(q).join(",")).join("\n"));
+});
+
+setInterval(() => { if (user && isAdmin(user)) renderStatus(); }, 15000);
+boot();
+</script>
 </body>
 </html>
